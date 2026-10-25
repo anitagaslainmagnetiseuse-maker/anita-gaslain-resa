@@ -51,4 +51,74 @@ if (section) {
   });
 }
   </script>
+  <script type="module">
+import { TARIFS, prixActuel } from "./tarifs.js";
+
+const form = document.getElementById("form");
+
+if (form) {
+  form.innerHTML = `
+    <p><label>Nom et prénom *
+      <input name="nom" required>
+    </label></p>
+
+    <p><label>Adresse e-mail *
+      <input name="email" type="email" required>
+    </label></p>
+
+    <p><label>Prestation ou forfait *
+      <select name="prestation" id="choix" required>
+        <option value="">Choisir une prestation</option>
+      </select>
+    </label></p>
+
+    <p><label>Date souhaitée *
+      <input name="date" type="date" required>
+    </label></p>
+
+    <p><label>Heure souhaitée *
+      <input name="heure" type="time" required>
+    </label></p>
+
+    <p>Rendez-vous soumis à confirmation.</p>
+    <button type="submit">Valider ma demande</button>
+  `;
+
+  const choix = document.getElementById("choix");
+
+  TARIFS.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item[0];
+    option.textContent =
+      item[1] + " - " + prixActuel(item) + " €";
+    choix.appendChild(option);
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const d = new FormData(form);
+    const item = TARIFS.find(x => x[0] === d.get("prestation"));
+    if (!item) return;
+
+    const message = [
+      "Demande de rendez-vous",
+      "Nom : " + d.get("nom"),
+      "E-mail : " + d.get("email"),
+      "Prestation : " + item[1],
+      "Tarif indicatif : " + prixActuel(item) + " €",
+      "Date souhaitée : " + d.get("date"),
+      "Heure souhaitée : " + d.get("heure")
+    ].join("\n");
+
+    const sujet = encodeURIComponent("Demande de rendez-vous");
+    const contenu = encodeURIComponent(message);
+
+    window.location.href =
+      "mailto:anitagaslainmagnetiseuse@gmail.com" +
+      "?subject=" + sujet + "&body=" + contenu;
+  }, true);
+}
+</script>
 </body></html>
