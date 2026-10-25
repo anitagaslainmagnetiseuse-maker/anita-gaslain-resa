@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planning – Anita Gaslain</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f3fa;
+  color: #222;
+  margin: 0;
+  padding: 15px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #743b85;
+}
+
+.intro {
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+button {
+  background: #743b85;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#semaine {
+  text-align: center;
+  font-weight: bold;
+}
+
+.jour {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px #ddd;
+}
+
+.horaires {
+  color: #257343;
+  font-weight: bold;
+}
+
+.ferme {
+  color: #a33;
+}
+
+.note {
+  background: #fff5dc;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌸 Anita Gaslain 🌸</h1>
+<h2>Planning hebdomadaire</h2>
+
+<p class="intro">
+Magnétiseur – Médium – Coach<br>
+Consultations uniquement à distance sur photo
+</p>
+
+<nav>
+<button onclick="changerSemaine(-1)">◀ Précédente</button>
+<div id="semaine"></div>
+<button onclick="changerSemaine(1)">Suivante ▶</button>
+</nav>
+
+<div id="planning"></div>
+
+<div class="note">
+<strong>Informations importantes</strong>
+<p>
+Les consultations sont réalisées à distance.
+Les rendez-vous sont confirmés uniquement
+après validation par Anita Gaslain.
+</p>
+<p>
+Demande de rendez-vous au minimum
+24 heures à l'avance.
+</p>
+<p>
+Annulation ou report à demander
+au minimum 48 heures avant.
+</p>
+<p>
+Une pause de 10 minutes est prévue
+entre deux consultations.
+</p>
+</div>
+
+<script>
+const horaires = [
+  "9h30 – 19h00",
+  "9h30 – 18h30",
+  "9h30 – 13h00",
+  "9h30 – 18h30",
+  "9h30 – 19h00",
+  "Fermé",
+  "Fermé"
+];
+
+const noms = [
+  "Lundi", "Mardi", "Mercredi",
+  "Jeudi", "Vendredi",
+  "Samedi", "Dimanche"
+];
+
+let decalage = 0;
+
+function afficherPlanning() {
+  const aujourdHui = new Date();
+  const lundi = new Date(aujourdHui);
+
+  const jour = (lundi.getDay() + 6) % 7;
+  lundi.setDate(lundi.getDate() - jour + decalage * 7);
+
+  const dimanche = new Date(lundi);
+  dimanche.setDate(lundi.getDate() + 6);
+
+  const format = {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  };
+
+  document.getElementById("semaine").textContent =
+    lundi.toLocaleDateString("fr-FR", format)
+    + " au "
+    + dimanche.toLocaleDateString("fr-FR", format);
+
+  let contenu = "";
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(lundi);
+    date.setDate(lundi.getDate() + i);
+
+    contenu += `
+      <div class="jour">
+        <strong>
+          ${noms[i]} ${date.toLocaleDateString("fr-FR")}
+        </strong>
+        <p class="${i > 4 ? "ferme" : "horaires"}">
+          ${horaires[i]}
+        </p>
+      </div>
+    `;
+  }
+
+  document.getElementById("planning").innerHTML = contenu;
+}
+
+function changerSemaine(nombre) {
+  decalage += nombre;
+  afficherPlanning();
+}
+
+afficherPlanning();
+</script>
+
+</body>
+</html>
