@@ -15,9 +15,40 @@
 </div><p class="muted">Tarifs affichés hors promotions ponctuelles. Le tarif exact et la disponibilité sont confirmés personnellement avant toute réservation.</p></section>
 <section><h2>Horaires de contact</h2><p>Lundi et vendredi : 9 h 30 – 19 h<br>Mardi et jeudi : 9 h 30 – 18 h 30<br>Mercredi : 9 h 30 – 13 h</p><p>Les créneaux demandés ne sont pas automatiquement réservés : je vous recontacte pour les confirmer.</p></section>
 <section id="reservation"><h2>Demander un rendez-vous</h2><p>Remplissez ce formulaire : votre application de messagerie s'ouvrira avec votre demande préremplie. <strong>Votre demande n'est envoyée que lorsque vous validez l'envoi dans votre messagerie.</strong></p>
-<form id="form"><label for="nom">Nom et prénom *</label><input id="nom" required autocomplete="name"><label for="email">Adresse e-mail *</label><input id="email" type="email" required autocomplete="email"><label for="tel">Téléphone *</label><input id="tel" type="tel" required autocomplete="tel"><label for="prestation">Prestation souhaitée *</label><select id="prestation" required><option value="">Choisissez une prestation</option><option>Soin énergétique</option><option>Guidance 1 domaine</option><option>Guidance tous domaines</option><option>Nettoyage énergétique personne</option><option>Nettoyage énergétique maison</option><option>Désenvoûtement</option><option>Coaching</option><option>Contact défunt</option><option>Soin énergétique animal</option><option>Autre prestation / forfait</option></select><label for="date">Date souhaitée (facultatif)</label><input id="date" type="date"><label for="message">Précisions (sans données médicales sensibles)</label><textarea id="message" placeholder="Votre demande, votre préférence horaire, votre offre spéciale..."></textarea><label class="check"><input type="checkbox" required>J'accepte que mes coordonnées soient utilisées pour répondre à cette demande de rendez-vous.</label><button type="submit">Préparer mon e-mail de réservation</button></form>
+<form id="form"><label for="nom">Nom et prénom *</label><input id="nom" required autocomplete="name"><label for="email">A
 <p class="muted">N'envoyez pas de photos ni d'informations médicales sensibles dans ce formulaire. Pour une consultation concernant un enfant, l'accord d'un titulaire de l'autorité parentale est nécessaire.</p></section>
 <section><h2>Après votre demande</h2><p>Je reviens vers vous avant le rendez-vous pour confirmer la prestation, son tarif, les modalités d'envoi des photos et le règlement. Vous pourrez transmettre les informations nécessaires par le moyen convenu.</p><p><strong>Paiements possibles :</strong> virement, Wero, PayPal (possibilité de paiement en plusieurs fois selon éligibilité) et carte bancaire par lien sécurisé. Aucun paiement n'est effectué directement sur ce site.</p><p>Contact : <a href="mailto:anitagaslainmagnetiseuse@gmail.com">anitagaslainmagnetiseuse@gmail.com</a></p><p class="notice">Ces prestations de bien-être et pratiques spirituelles ne remplacent pas un diagnostic, un traitement ou un suivi médical ou vétérinaire. Aucun résultat médical n'est garanti.</p></section>
 </main><footer>© <span id="year"></span> Anita Gaslain — Magnétiseur, Médium et Coach</footer><script>
 document.getElementById('year').textContent=new Date().getFullYear();document.getElementById('date').min=new Date().toLocaleDateString('en-CA');document.getElementById('form').addEventListener('submit',function(e){e.preventDefault();if(!this.reportValidity())return;const get=id=>document.getElementById(id).value.trim();const body=`Bonjour,\n\nJe souhaite demander un rendez-vous à distance.\n\nNom : ${get('nom')}\nE-mail : ${get('email')}\nTéléphone : ${get('tel')}\nPrestation : ${get('prestation')}\nDate souhaitée : ${get('date')||'À convenir'}\nPrécisions : ${get('message')||'Aucune'}\n\nMerci de me confirmer la disponibilité, le tarif et les modalités de règlement.\n`;window.location.href='mailto:anitagaslainmagnetiseuse@gmail.com?subject='+encodeURIComponent('Demande de rendez-vous - Anita Gaslain Résa')+'&body='+encodeURIComponent(body)});
-</script></body></html>
+</script>
+  <script type="module">
+import { TARIFS, prixActuel } from "./tarifs.js";
+
+const section = document.querySelectorAll("section")[1];
+
+if (section) {
+  section.innerHTML = "<h2>Prestations et tarifs</h2>";
+  const grille = document.createElement("div");
+  grille.className = "grid";
+  section.appendChild(grille);
+
+  TARIFS.forEach(item => {
+    const carte = document.createElement("div");
+    carte.className = "card";
+
+    const nom = document.createElement("strong");
+    nom.textContent = item[1];
+
+    const montant = document.createElement("p");
+    const prix = prixActuel(item);
+
+    montant.textContent = prix !== item[2]
+      ? item[2] + " € → " + prix + " € (PROMO)"
+      : prix + " €";
+
+    carte.append(nom, montant);
+    grille.appendChild(carte);
+  });
+}
+  </script>
+</body></html>
