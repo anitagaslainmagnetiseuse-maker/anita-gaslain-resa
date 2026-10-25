@@ -120,5 +120,19 @@ if (form) {
       "?subject=" + sujet + "&body=" + contenu;
   }, true);
 }
+    document.body.insertAdjacentHTML("beforeend", `
+  <div style="text-align:center;padding:20px">
+    <p><strong>Une question ? Contactez-moi :</strong></p>
+    <a href="sms:+33606479444"
+       style="display:inline-block;padding:12px;margin:5px;background:#7952a3;color:white;border-radius:8px;text-decoration:none">
+       ✉️ SMS
+    </a>
+    <a href="https://wa.me/33606479444"
+       target="_blank" rel="noopener noreferrer"
+       style="display:inline-block;padding:12px;margin:5px;background:#25D366;color:white;border-radius:8px;text-decoration:none">
+       💬 WhatsApp
+    </a>
+  </div>
+`);
 </script>
 </body></html>
