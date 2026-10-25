@@ -188,5 +188,11 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  return send(res, 404, {
+  return send(res, 404, {error: 'Route indisponible'
+  });
+});
+
+server.listen(PORT, '0.0.0.0', () => {
+  console.log('Serveur Anita Gaslain démarré');
+});
    
