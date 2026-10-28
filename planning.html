@@ -238,55 +238,15 @@ function changerSemaine(nombre) {
   afficherPlanning();
 }
 
-afficherPlanning();
+afficherPlan
 
-  function choisirHoraire(date, heure) {
-  const nom = prompt("Votre nom et prénom :");
-  if (!nom || !nom.trim()) return;
+    "
 
-  const prestation = prompt("Quelle prestation souhaitez-vous ?");
-  if (!prestation || !prestation.trim()) return;
 
-  const telephone = prompt("Votre numéro de téléphone :");
-  if (!telephone || !telephone.trim()) return;
-
-  const sujet = "Demande de rendez-vous - Anita Gaslain";
-
-  const message =
-    "Bonjour Anita,\n\n" +
-    "Je souhaite demander un rendez-vous.\n\n" +
-    "Nom : " + nom + "\n" +
-    "Téléphone : " + telephone + "\n" +
-    "Prestation : " + prestation + "\n" +
-    "Date : " + date + "\n" +
-    "Heure : " + heure + "\n\n" +
-    "Dans l'attente de votre confirmation.";
-
-  const lien = "mailto:anitagaslainmagnetiseuse@gmail.com" +
-    "?subject=" + encodeURIComponent(sujet) +
-    "&body=" + encodeURIComponent(message);
-
-  window.location.href = lien;
-}
-  
+    
   
 
 
-function creerCreneaux(date) {
-  const heures = [
-    "09:30", "10:30", "11:30",
-    "14:00", "15:00", "16:00", "17:00"
-  ];
+  
+  
 
-  return heures.map(heure => `
-    <button type="button"
-      style="margin:4px"
-      onclick="choisirHoraire('${date}', '${heure}')">
-      ${heure}
-    </button>
-  `).join("");
-}
-</script>
-
-</body>
-</html>
