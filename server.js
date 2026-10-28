@@ -129,7 +129,68 @@ const server = http.createServer(async (req, res) => {
     }
 
     try {
-      const body = await readBody(req);
+      const body = await readBody(req);if (path === "/api/reservations") {
+  const nom = String(body.nom || "").trim();
+  const email = String(body.email || "").trim();
+  const telephone = String(body.telephone || "").trim();
+  const prestation = String(body.prestation || "").trim();
+  const date = String(body.date || "").trim();
+  const heure = String(body.heure || "").trim();
+
+  if (
+    !nom || !email || !telephone ||
+    !prestation || !date || !heure ||
+    nom.length > 100 ||
+    email.length > 150 ||
+    telephone.length > 40 ||
+    prestation.length > 200 ||
+    date.length > 30 ||
+    heure.length > 20 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  ) {
+    return send(res, 400, {
+      error: "Informations de réservation invalides"
+    });
+  }
+
+  const message = [
+    "Nouvelle demande de rendez-vous",
+    "",
+    "Nom : " + nom,
+    "Email : " + email,
+    "Téléphone : " + telephone,
+    "Prestation : " + prestation,
+    "Date : " + date,
+    "Heure : " + heure,
+    "",
+    "Demande en attente de votre validation."
+  ].join("\n");
+
+  await envoyerEmailBrevo(
+    "anitagaslainmagnetiseuse@gmail.com",
+    "Nouvelle demande de rendez-vous - Anita Gaslain",
+    message
+  );
+
+  await envoyerEmailBrevo(
+    email,
+    "Demande reçue - Anita Gaslain",
+    "Bonjour " + nom + ",\n\n" +
+    "Votre demande de rendez-vous pour " +
+    prestation + " le " + date + " à " + heure +
+    " a bien été reçue.\n\n" +
+    "Votre rendez-vous reste en attente de validation." +
+    "\nVous recevrez les informations de paiement " +
+    "après mon accord.\n\n" +
+    "Cordialement,\n" +
+    "Anita Gaslain - Magnétiseur, Médium et Coach"
+  );
+
+  return send(res, 200, {
+    status: "ok",
+    message: "Demande de rendez-vous reçue"
+  });
+}
       
   
 
