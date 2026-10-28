@@ -130,43 +130,42 @@ const server = http.createServer(async (req, res) => {
 
     try {
       const body = await readBody(req);
-      async function envoyerEmailBrevo(destinataire, sujet, message) {
-  const cleApi = process.env.BREVO_API_KEY;
+      
+  
 
-  if (!cleApi) {
-    throw new Error("Clé API Brevo manquante");
-  }
 
-  const reponse = await fetch(
-    "https://api.brevo.com/v3/smtp/email",
-    {
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "api-key": cleApi,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        sender: {
-          name: "Anita Gaslain - Réservations",
-          email: "anitagaslainmagnetiseuse@gmail.com"
-        },
-        to: [
-          { email: destinataire }
-        ],
-        subject: sujet,
-        textContent: message
-      })
-    }
-  );
+  
+  
 
-  if (!reponse.ok) {
-    const erreur = await reponse.text();
-    throw new Error("Erreur Brevo : " + erreur);
-  }
+  
+    
+    
+  
+  
+      
+      
+        
+      
+      
+  
+          
+          
+        
+        
+          
+        
+        
+      
+      
+    
+  
 
-  return await reponse.json();
-}
+  
+
+    
+  
+
+  
 
       if (path === '/api/orders') {
         const item = CATALOG[body.serviceId];
